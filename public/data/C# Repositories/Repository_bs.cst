@@ -1,0 +1,19 @@
+using [[namespace]].Entities;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace [[namespace]].Repositories
+{
+    public class [[object]]Repository : BaseRepository<[[object]]>
+    {
+        //-----------------------------------------------------
+        public DataContext db { get; }
+        //-----------------------------------------------------
+        public [[object]]Repository(DataContext context) : base(context)
+        {
+            db = context;
+        }
+        //------------------------------------------------------------------------------------------
+
+    }
+}

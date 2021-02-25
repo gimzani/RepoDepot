@@ -1,0 +1,140 @@
+[
+  {
+    "id": 1,
+    "folder": "C# Entities",
+    "type": "entity",
+    "multifile": true,
+    "description": "",
+    "destFolder": "Entities",
+    "outputPath": "",
+    "fileAppend": ".cs",
+    "templates": [
+      {
+        "id": 1,
+        "name": ".net Core Entity Class",
+        "file": "Entity.cst",
+        "companions": []
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "folder": "C# Controllers",
+    "type": "controller",
+    "multifile": true,
+    "description": "",
+    "destFolder": "Controllers",
+    "outputPath": "",
+    "fileAppend": "Controller.cs",
+    "templates": [
+      {
+        "id": 1,
+        "name": ".net Core w/ Automapper and DataContext",
+        "file": "Controller_am_dc.cst",
+        "companions": []
+      },
+      {
+        "id": 2,
+        "name": ".net Core w/ Automapper and Unit of Work",
+        "file": "Controller_am_uow.cst",
+        "companions": []
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "folder": "C# Repositories",
+    "type": "repository",
+    "multifile": true,
+    "description": "",
+    "destFolder": "Repositories",
+    "outputPath": "",
+    "fileAppend": "Repository.cs",
+    "templates": [
+      {
+        "id": 1,
+        "name": ".net Core Repository",
+        "file": "Repository_bs.cst",
+        "companions": [{ "op":"copy", "src":"BaseRepository.cst", "dest": "BaseRepository.cs" }]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "folder": "C# Data Context",
+    "type": "data-context",
+    "multifile": false,
+    "description": "",
+    "destFolder": "",
+    "outputPath": "",
+    "fileAppend": "DataContext.cs",
+    "templates": [
+      {
+        "id": 1,
+        "name": ".net Core Basic DataContext",
+        "file": "DataContext_bs.cst",
+        "companions": []
+      },
+      {
+        "id": 2,
+        "name": ".net Core Basic DataContext with Table Mapping",
+        "file": "DataContext_bs_tm.cst",
+        "companions": []
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "folder": "C# Unit of Work",
+    "type": "unit-of-work",
+    "multifile": false,
+    "description": "",
+    "destFolder": "",
+    "outputPath": "",
+    "fileAppend": "Uow.cs",
+    "templates": [    
+      {
+        "id": 1,
+        "name": ".net Core Unit of Work",
+        "file": "Uow.cst",
+        "companions": [{ "op":"copy", "src":"IUow.cst", "dest": "IUow.cs" }]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "folder": "C# View Models",
+    "type": "view-model",
+    "multifile": true,
+    "description": "",
+    "destFolder": "ViewModels",
+    "outputPath": "",
+    "fileAppend": "Model.cs",
+    "templates": [
+      {
+        "id": 1,
+        "name": ".net Core View Model Class",
+        "file": "ViewModel.cst",
+        "companions": []
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "folder": "JavaScript Models",
+    "type": "js-model",
+    "multifile": true,
+    "description": "",
+    "destFolder": "jsModels",
+    "outputPath": "",
+    "fileAppend": ".js",
+    "templates": [    
+      {
+        "id": 1,
+        "name": "Javascript class models",
+        "file": "Javascript_cl_md.cst",
+        "companions": []
+      }
+    ]
+  }
+]

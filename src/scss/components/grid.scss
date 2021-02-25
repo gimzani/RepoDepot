@@ -1,0 +1,13 @@
+.row {
+  display: flex;
+}
+
+.col {
+  flex: 1;
+  padding: 5px;
+}
+
+.col-auto {
+  flex-shrink: 1;
+}
+

@@ -1,0 +1,59 @@
+
+//-----------------------------------------  text colors
+$info-color: rgb(0, 75, 124);                 //31708f
+$success-color: rgb(29, 124, 0);              //3c763d
+$warning-color: rgb(206, 175, 0);             //8a6d3b
+$danger-color: rgb(177, 46, 46);              //a94442
+$light-color: rgb(218, 218, 218);
+$dark-color: rgb(44, 44, 44);
+
+$color-black: rgb(0, 0, 0);
+$color-white: rgb(255, 255, 255);
+
+//-----------------------------------------  background colors
+$bg-info: rgb(217, 237, 247);
+$bg-success: rgb(223, 240, 216);
+$bg-warning: rgb(252, 248, 227);
+$bg-danger: rgb(242, 222, 222);
+
+//-----------------------------------------  border colors
+$border-info: rgb(188, 232, 241);
+$border-success: rgb(214, 233, 198);
+$border-warning: rgb(250, 235, 204);
+$border-danger: rgb(235, 204, 209);
+
+//-----------------------------------------  text colors
+
+$text-info: rgb(0, 75, 124);
+$text-success: rgb(29, 124, 0);
+$text-warning: rgb(206, 175, 0);
+$text-danger: rgb(177, 46, 46);
+
+$text-white: rgb(255, 255, 255);
+$text-light: rgb(225, 225, 225);
+$text-shade: rgb(119, 119, 119);
+$text-dark: rgb(51, 51, 51);
+$text-black: rgb(0, 0, 0);
+
+//-----------------------------------------  table colors
+
+$border-table: rgb(204, 204, 204);
+$border-table-translucent: rgba(145, 145, 145, 0.75);
+
+//-----------------------------------------  alert colors
+
+$alert-info-text: $info-color;
+$alert-info-background: $bg-info;
+$alert-info-border: $border-info;
+
+$alert-success-text: $success-color;
+$alert-success-background: $bg-success;
+$alert-success-border: $border-success;
+
+$alert-warning-text: $warning-color;
+$alert-warning-background: $bg-warning;
+$alert-warning-border: $border-warning;
+
+$alert-danger-text: $danger-color;
+$alert-danger-background: $bg-danger;
+$alert-danger-border: $border-danger;

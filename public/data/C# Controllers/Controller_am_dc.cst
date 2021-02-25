@@ -1,0 +1,163 @@
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
+using [[namespace]];
+using [[namespace]].Models;
+using [[namespace]].Entities;
+
+namespace [[namespace]].Controllers.API
+{
+    /// <summary>
+    /// CRUD {[object]}
+    /// </summary>
+    /// ---------------------------------------------------------------------------------------------------
+    [RoutePrefix("api")]
+    public class {[object]}Controller : ApiController
+    {
+        private readonly DataContext db;
+        private readonly Mapper mapper;
+        //-------------------------------------------------------------------------------------------------
+        #region public
+        //-------------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------
+        public {[object]}Controller()
+        {
+            db = new DataContext();
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new DomainProfile()));
+            mapper = new Mapper(config);
+        }
+        //----------------------------------------------------------------------  LIST
+        [HttpGet]
+        [Route("{|object|}")]
+        public IHttpActionResult List{[object]}()
+        {
+            ApiResult result = new ApiResult();
+            //------------------------------------
+            try
+            {
+                List<[[object]]> {|object|} = db.{[object]}.ToList();
+                List<[[object]]Model> [|object|]Models = mapper.Map<List<[[object]]Model>>({|object|});
+                result.SetSuccess("{[object]} listed successfully", [|object|]Models);
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //------------------------------------
+            return Ok(result);
+        }
+
+        //----------------------------------------------------------------------  GET
+        [HttpGet]
+        [Route("[|object|]/{[[object]]_ID}")]
+        public IHttpActionResult Get[[object]](int [[object]]_ID)
+        {
+            ApiResult result = new ApiResult();
+            //------------------------------------
+            try
+            {
+                [[object]] [|object|] = db.{[object]}.FirstOrDefault(t => t.[[object]]_ID == [[object]]_ID);
+                if ([|object|] != null)
+                {
+                    [[object]]Model [|object|]Model = mapper.Map<[[object]]Model>([|object|]);
+                    result.SetSuccess("[[object]] retrieved successfully", [|object|]Model);
+                }
+                else
+                {
+                    result.SetFailure("[[object]] not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //------------------------------------
+            return Ok(result);
+        }
+
+        //----------------------------------------------------------------------  CREATE
+        [HttpPost]
+        [Route("{|object|}")]
+        public IHttpActionResult Create[[object]]([[object]]Model [|object|]Model)
+        {
+            ApiResult result = new ApiResult();
+            //------------------------------------
+            try
+            {
+                [[object]] [|object|] = mapper.Map<[[object]]>([|object|]Model);
+                [|object|].CreatedOn = DateTime.UtcNow;
+                [|object|].CreatedBy = "Not implemented yet";
+
+                db.{[object]}.Add([|object|]);
+                db.SaveChanges();
+                result.SetSuccess("[[object]] created successfully");
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //------------------------------------
+            return Ok(result);
+        }
+
+        //----------------------------------------------------------------------  UPDATE
+        [HttpPut]
+        [Route("[|object|]/{[[object]]_ID}")]
+        public IHttpActionResult Update[[object]](int [[object]]_ID, [[object]]Model [|object|]Model)
+        {
+            ApiResult result = new ApiResult();
+            //------------------------------------
+            try
+            {
+                [[object]] [|object|] = db.{[object]}.FirstOrDefault(t => t.[[object]]_ID == [[object]]_ID);
+                if ([|object|] != null)
+                {
+                    [|object|].UpdatedOn = DateTime.UtcNow;
+                    [|object|].UpdatedBy = "Not implemented yet";
+
+                    db.Entry([|object|]).CurrentValues.SetValues([|object|]Model);
+                    db.SaveChanges();
+                    result.SetSuccess("[[object]] created successfully");
+                }
+                else
+                {
+                    result.SetFailure("[[object]] not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //------------------------------------
+            return Ok(result);
+        }
+
+        //----------------------------------------------------------------------  DELETE
+        [HttpDelete]
+        [Route("[|object|]/{[[object]]_ID}")]
+        public IHttpActionResult Delete[[object]](int [[object]]_ID)
+        {
+            ApiResult result = new ApiResult();
+            //------------------------------------
+            try
+            {
+                [[object]] [|object|] = db.{[object]}.FirstOrDefault(t => t.[[object]]_ID == [[object]]_ID);
+                db.{[object]}.Remove([|object|]);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+
+            //------------------------------------
+            return Ok(result);
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------
+    }
+}

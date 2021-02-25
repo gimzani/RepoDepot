@@ -1,0 +1,27 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body { height:100%; }
+
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+
+.inline {
+  display: inline;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}

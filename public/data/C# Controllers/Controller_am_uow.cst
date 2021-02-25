@@ -1,0 +1,151 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using [[namespace]];
+using [[namespace]].Models;
+using [[namespace]].Entities;
+
+namespace [[namespace]].Controllers
+{
+    [Route("api")]
+    public class {[object]}Controller : Controller
+    {
+        //-----------------------------------------------------
+        private IUow uow { get; set; }
+        private IMapper mapper;
+        //-----------------------------------------------------
+        public {[object]}Controller(IUow uow, IMapper mapper)
+        {
+            this.uow = uow;
+            this.mapper = mapper;
+        }
+        //--------------------------------------------------------------------------
+        #region BASE CRUD
+        //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------  List {[object]} 
+        [Authorize]
+        [HttpGet("{|object|}")]
+        public IActionResult List{[object]}()
+        {
+            ApiResult result = new ApiResult();
+            //-----------------------------------------------------
+            try
+            {
+                //-------------------------------
+                List<[[object]]> {|object|} = uow.{[object]}.ListAll();
+                List<[[object]]Model> models = mapper.Map<List<[[object]]Model>>({|object|});
+                //-------------------------------
+                result.SetSuccess("{[object]} listed successfully.", models);
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //-----------------------------------------------------
+            return Ok(result);
+        }
+        //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------  Get [[object]] by Id
+        [Authorize]
+        [HttpGet("[|object|]/{[|object|]Id}")]
+        public IActionResult Get[[object]](int [|object|]Id)
+        {
+            ApiResult result = new ApiResult();
+            //-----------------------------------------------------
+            try
+            {
+                [[object]] [|object|] = uow.{[object]}.GetById([|object|]Id);
+                [[object]]Model model = mapper.Map<[[object]]Model>([|object|]);
+                result.SetSuccess("[[object]] retrieved successfully.", model);
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //-----------------------------------------------------
+            return Ok(result);
+        }
+        //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------  Create [[object]]
+        [Authorize]
+        [HttpPost("{|object|}")]
+        public IActionResult Create[[object]]([FromBody] [[object]]Model model)
+        {
+            ApiResult result = new ApiResult();
+            //-----------------------------------------------------
+            if (model == null)
+                throw new Exception("Input request is null.");
+            //-----------------------------------------------------
+            try
+            {
+                [[object]] [|object|] = mapper.Map<[[object]]>(model);
+                uow.{[object]}.Add([|object|]);
+                uow.Commit();
+                result.SetSuccess("[[object]] created successfully.", [|object|]);
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //-----------------------------------------------------
+            return Ok(result);
+        }
+        //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------  Update [[object]]
+        [Authorize]
+        [HttpPut("[|object|]/{[|object|]Id}")]
+        public IActionResult Update[[object]](int [|object|]Id, [FromBody] [[object]]Model model)
+        {
+            ApiResult result = new ApiResult();
+            //-----------------------------------------------------
+            try
+            {
+                if (uow.{[object]}.Exists([|object|]Id))
+                {
+                    [[object]] [|object|] = mapper.Map<[[object]]>(model);
+                    uow.{[object]}.Update([|object|]);
+                    uow.Commit();
+                    result.SetSuccess("[[object]] updated successfully.", [|object|]);
+                }
+                else
+                {
+                    result.SetFailure("[[object]] not found");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //-----------------------------------------------------
+            return Ok(result);
+        }
+        //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------  Delete [[object]]
+        [Authorize]
+        [HttpDelete("[|object|]/{[|object|]Id}")]
+        public IActionResult Delete[[object]](int [|object|]Id)
+        {
+            ApiResult result = new ApiResult();
+            //-----------------------------------------------------
+            try
+            {
+                [[object]] [|object|] = uow.{[object]}.GetById([|object|]Id);
+                uow.{[object]}.Delete([|object|]);
+                uow.Commit();
+                result.SetSuccess("[[object]] deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                result.SetFailure(ex.GetBaseException().Message);
+            }
+            //-----------------------------------------------------
+            return Ok(result);
+        }
+        //--------------------------------------------------------------------------
+        #endregion
+        //--------------------------------------------------------------------------
+    }
+}

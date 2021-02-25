@@ -1,0 +1,24 @@
+using [[namespace]].Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace [[namespace]]
+{
+
+    public class DataContext : DbContext
+    {
+        //-----------------------------------------------
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        //--------------------------------------------------------------------------------
+
+        [[context-props]]
+
+        //--------------------------------------------------------------------------------
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //------------------------------------------------
+            [[context-schema]]
+
+        }
+
+    }
+}

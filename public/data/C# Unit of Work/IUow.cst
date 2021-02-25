@@ -1,0 +1,17 @@
+using [[namespace]].Repositories;
+using System;
+
+namespace [[namespace]]
+{
+    public interface IUow : IDisposable
+    {
+        //--------------------------------------------------------------------------
+
+        [[iuow-instances]]
+
+        //-----------------------------------------------
+        void Commit();
+        //-----------------------------------------------
+
+    }
+}
