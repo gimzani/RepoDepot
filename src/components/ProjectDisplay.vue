@@ -18,30 +18,7 @@
     <div class="col">
       <path-selector label="Output Path" :value="project.outputPath" @input="setOutputPath"></path-selector>
     </div>
-  </div>
-    
-  <!-- PROPS -->
-  <div class="project-props">
-
-    <div style="margin-bottom:10px;">
-      <button class="btn btn-xs btn-default" @click="showProps = !showProps">
-        <font-awesome-icon class="text-info" icon="chevron-up" v-if="!showProps" />
-        <font-awesome-icon class="text-info" icon="chevron-down" v-else />
-      </button>
-      <h4 class="inline">Props:</h4>
-    </div>
-
-    <aside v-show="showProps">
-      <div v-for="k in Object.keys(project.props)" :key="k">
-        <div class="input-group input-group-sm">
-          <span class="input-group-addon">{{k}}</span>
-          <input type="text" class="form-control" :value="project.props[k]" @input="setProp(k, $event.target.value)"  />
-        </div>
-      </div>
-
-    </aside>
-
-  </div>
+  </div>  
 
   <!-- JOBS -->
   <h4>Jobs: {{processorCount}} </h4>
@@ -50,6 +27,8 @@
       :job="p" v-for="(p, index) in project.jobs" 
       :key="index"
       @remove-job="$emit('remove-job', $event)"
+      @edit-job="$emit('edit-job', $event)"
+      @run-job="$emit('run-job', $event)"
     ></job-display>
   </div>
 
@@ -64,12 +43,9 @@ import JobDisplay from './JobDisplay'
 //----------------------------------------
 export default {
   name: "ProjectDisplay",
+  
   components: { PathSelector, JobDisplay },
-  data() {
-    return {
-      showProps: false
-    }
-  },
+
   computed: {
     project() { return this.$store.state.ProjectStore.project },
     processorCount() { return this.project && this.project.jobs ? this.project.jobs.length : 0 },
@@ -88,7 +64,7 @@ export default {
     },
 
     setProp(prop, val) {      
-      this.$store.dispatch('ProjectStore/updateProp', { prop, val });       
+      this.$store.dispatch('ProjectStore/updateProp', { prop, val });  // deprecating     
     },
 
     //------

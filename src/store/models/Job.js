@@ -2,7 +2,9 @@
 export default class Job {
   constructor(options) {
 
-    this.id = 0;
+    this.id = Math.random();
+    this.processorId = null;
+    this.templateId = null;
     this.name = null;
     this.type = null;
     this.multifile = false;
@@ -20,6 +22,8 @@ export default class Job {
   init(options) {
     
     this.id = options.id || this.id;
+    this.processorId = options.processorId || this.processorId;
+    this.templateId = options.templateId || this.templateId;
     this.name = options.name || this.name;
     this.type = options.type || this.type;
     this.multifile = options.multifile || this.multifile;
@@ -28,5 +32,6 @@ export default class Job {
     this.fileAppend = options.fileAppend || this.fileAppend;
     this.companions = options.companions || this.companions;
   
-  }
+  } 
+
 }

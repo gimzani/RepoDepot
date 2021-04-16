@@ -11,8 +11,6 @@ export default class Project {
     this.inputPath = null;
     this.outputPath = null;
 
-    this.props = {}
-
     this.jobs = [];
 
     if(options) {
@@ -26,27 +24,8 @@ export default class Project {
     this.filePath = options.filePath || this.filePath;
     this.inputPath = options.inputPath || this.inputPath;
     this.outputPath = options.outputPath || this.outputPath;
-    this.props = options.props || this.props;
     this.jobs = options.jobs ? options.jobs.map(p => new Job(p)) : this.jobs;
 
-  }
-
-  //---------------------------------------------------------------------------
-  extractProps() {
-    //-----------------
-    let keys = [];
-    this.jobs.forEach(job => {
-      keys.push(mergeTags.getKeys(job.content));
-    });
-    //-----------------
-    let finalSet = mergeTags.distinctSet(keys);
-    //-----------------
-    let props = {...this.props};
-    finalSet.forEach(item => {
-      props[item] = props[item] ? props[item] : null;
-    });
-    this.props = props;
-    //-----------------
   }
   
   //---------------------------------------------------------------------------  

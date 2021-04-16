@@ -1,9 +1,6 @@
 //---------------------------------------------------
 import * as ipc from '../../code/ipc'
-import * as fileIO from '../../code/fileIO'
 import Project from '../models/Project'
-import Job from '../models/Job'
-const { app } = require('electron').remote;
 //---------------------------------------------------
 
 // state
@@ -48,39 +45,18 @@ const actions = {
     ipc.saveProject(state.project);
   },
 
-  addJob({commit}, processor) {
+  //-------------------------------------------------------
 
+  addJob({state, commit}, job) {
     let project = new Project(state.project);
-
-    let template = processor.templates.find(t => {
-      return t.id === processor.templateId;
-    });
-
-    let content = fileIO.getTemplateContent(app.getAppPath(), processor.folder, template.file);
-
-    let companions = [];
-    template.companions.forEach(com => {
-      companions.push({
-        op: com.op,
-        src: com.src,
-        dest: com.dest,
-        content: fileIO.getTemplateContent(app.getAppPath(), processor.folder, com.src)
-      });
-    });
-
-    let job = new Job({
-      id: processor.id,
-      name: processor.folder,
-      type: processor.type,
-      multifile: processor.multifile,
-      outputPath: processor.outputPath,
-      fileAppend: processor.fileAppend,
-      content: content,
-      companions: companions
-    });
-
     project.jobs.push(job);
-    project.extractProps();
+    commit("SET_PROJECT", project);
+  },
+
+  updateJob({state, commit}, job) {
+    let project = new Project(state.project);
+    let ind = project.jobs.findIndex(j => j.id === job.id);
+    project.jobs[ind] = job;
     commit("SET_PROJECT", project);
   },
 
@@ -90,14 +66,7 @@ const actions = {
       if(p.id !== job.id) { return p }
     });
     commit("SET_PROJECT", project);
-  },
-  
-  updateProp({commit, state}, {prop, val}) {
-    let project = new Project(state.project);
-    project.props[prop] = val;
-    commit("SET_PROJECT", project);
-  },
-  
+  }
 
 }
 

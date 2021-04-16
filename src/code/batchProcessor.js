@@ -8,44 +8,53 @@ const path = require('path');
 
 export default class BatchProcessor {
 
-  constructor() {
-    this.objectDefs = null;
-    this.project = null;
+  constructor(project) {
+    this.project = project;
     this.reserved = reserved;
+    this.objectDefs = null;
+  }
+
+  //-----------------------------------------------------------------
+  async getObjectDefs() {
+    return fileIO.getObjectDefinitions(this.project.inputPath);
   }
   
   //-----------------------------------------------------------------
-  build(project) {
-    // get source files
-    this.project = project;
+  async build() {
+    
+    if(!this.objectDefs) {
+      this.objectDefs = await this.getObjectDefs();
+    }
 
-    return fileIO.getObjectDefinitions(this.project.inputPath).then(objectDefs => {
-      this.objectDefs = objectDefs;
-      //console.log("this.objectDefs", this.objectDefs);
+    this.project.jobs.forEach(job => {
+      //console.log(job);
+      this.processJob(job); 
+    }); 
 
-      // for each job...
-      this.project.jobs.forEach(job => {
-        //console.log(job);
+  }
+
+  //-----------------------------------------------------------------
+  async processJob(job) {
         
-        fileIO.checkDirectory(job.outputPath);
+    if(!this.objectDefs) {
+      this.objectDefs = await this.getObjectDefs();
+    }
 
-        // handle single/multiple file process
-        if(job.multifile) {
-          this.multipleFile(job);
-        } else {
-          this.singleFile(job);
-        }
+    fileIO.checkDirectory(job.outputPath);
 
-        if(job.companions.length > 0) {
-          // process companion files
-          job.companions.forEach(com => {
-            this.copyCompanion(com, job);
-          });
-        }
+    // handle single/multiple file process
+    if(job.multifile) {
+      this.multipleFile(job);
+    } else {
+      this.singleFile(job);
+    }
 
+    if(job.companions.length > 0) {
+      // process companion files
+      job.companions.forEach(com => {
+        this.copyCompanion(com, job);
       });
-
-    });
+    }
 
   }
 
@@ -59,13 +68,11 @@ export default class BatchProcessor {
   //-----------------------------------------------------------------
   singleFile(job, def) {
     
-    let text = job.content;
+    let text = job.content.replace(/\r/g);
 
     let tags = mergeTags.getAllTags(text);
-    //console.log(tags);
 
     tags.forEach(tag => {
-      //console.log(tag);
       text = this.mergeText(tag, text, def);
     });
 
@@ -86,13 +93,7 @@ export default class BatchProcessor {
   //-----------------------------------------------------------------
 
   mergeText(tag, text, def) {
-
-    //console.log(tag, def);
-
-    if(this.reserved.indexOf(tag) < 0) {
-      let regex = new RegExp(`\\[\\[${tag}\\]\\]`, 'gi');
-      return text.replace(regex, this.project.props[tag]);
-    } else {
+    if(this.reserved.indexOf(tag) >= 0) {     
       switch (tag) {
         case "object": return this.objectReplace(text, def.name);
         case "entity-props": return this.entityProps(text, def.props);
@@ -120,7 +121,7 @@ export default class BatchProcessor {
 
   //------------------------------------------
   findIndent(text, match) {
-    let lines = text.split(/\r\n/g);
+    let lines = text.split(/\n/g);
     for(let i=0; i < lines.length; i++) {
       if(lines[i].indexOf(match) > 0) {
         let spacing = lines[i].split(match);
@@ -151,7 +152,7 @@ export default class BatchProcessor {
       }
 
       propBlock += spacing + `public ${item.type} ${item.prop} { get; set;}\r\n`
-
+      
     })
     text = text.replace(/\[\[entity-props\]\]/gi, propBlock);
     return text;

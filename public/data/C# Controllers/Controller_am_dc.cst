@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Http;
 using [[namespace]];
 using [[namespace]].Models;
 using [[namespace]].Entities;
@@ -13,21 +14,23 @@ namespace [[namespace]].Controllers.API
     /// CRUD {[object]}
     /// </summary>
     /// ---------------------------------------------------------------------------------------------------
-    [RoutePrefix("api")]
-    public class {[object]}Controller : ApiController
-    {
+    [Route("api")]
+    public class {[object]}Controller : Controller
+    {        
+        //-----------------------------------------------------
         private readonly DataContext db;
         private readonly Mapper mapper;
-        //-------------------------------------------------------------------------------------------------
-        #region public
-        //-------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------
         //----------------------------------------------------------------------
-        public {[object]}Controller()
+        public {[object]}Controller(DataContext db)
         {
-            db = new DataContext();
+            this.db = db;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new DomainProfile()));
             mapper = new Mapper(config);
         }
+        //-------------------------------------------------------------------------------------------------
+        #region public
+        //-------------------------------------------------------------------------------------------------
         //----------------------------------------------------------------------  LIST
         [HttpGet]
         [Route("{|object|}")]

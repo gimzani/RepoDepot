@@ -22,11 +22,11 @@
 
   <span class="input-group" v-if="outputPath">
     <div class="input-group-btn">
-      <button class="btn btn-default" @click="addJob()" title="Add Processor">
+      <button class="btn btn-default" @click="$emit('new-job');" title="New Job">
         <font-awesome-icon class="text-success" icon="plus" />
       </button>
     </div>
-    <select class="form-control" v-model="processorId">
+    <select class="form-control" v-model="processorId" @change="selectProcessor()">
       <option v-for="p in processors" :key="p.id" :value="p.id">{{p.folder}}</option>
     </select>
   </span>
@@ -52,10 +52,17 @@ export default {
 
   computed: {
     processors() { return this.$store.state.AppStore.processors; },
+    processor() { return this.$store.state.AppStore.processor; },
     project() { return this.$store.state.ProjectStore.project },
     filePath() { return this.project ? this.project.filePath : null; },
     inputPath() { return this.project ? this.project.inputPath : null; },
     outputPath() { return this.project ? this.project.outputPath : null; }
+  },
+
+  watch: {
+    processor() {
+      this.processorId = this.processor.id;
+    }
   },
 
   methods: {
@@ -82,11 +89,11 @@ export default {
       this.$emit('close-project');
     },
 
-    addJob() {
+    selectProcessor() {
       let processor = this.processors.find(item => {
         return item.id == this.processorId;
       });
-      this.$emit('add-job', processor);
+      this.$store.dispatch('AppStore/setProcessor', processor);
     },
 
     saveProject() {

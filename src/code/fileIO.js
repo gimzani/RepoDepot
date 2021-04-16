@@ -42,8 +42,10 @@ export function parseFiles(filePaths) {
     var objectDefs = [];
     //--------------------
     for (var i = 0; i < filePaths.length; i++) {
-      var objectDef = parseDataModelFile(filePaths[i]);
-      objectDefs.push(objectDef);
+      if(filePaths[i].endsWith(".json")) {
+        var objectDef = parseDataModelFile(filePaths[i]);
+        objectDefs.push(objectDef);        
+      }
     }
     //--------------------
     resolve(objectDefs);
@@ -76,7 +78,7 @@ export function getFilenameAndExtension(filePath) {
 
 //---------------------------------------
 export function getTemplateContent(root, folderName, fileName) {
-  let templateFilePath = path.join(root, 'data', folderName, fileName)
+  let templateFilePath = path.join(root, 'data', folderName, fileName);
   let text = readFile(templateFilePath);
   return text;
 }
